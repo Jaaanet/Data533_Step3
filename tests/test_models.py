@@ -42,6 +42,7 @@ class TestUserProfile(unittest.TestCase):
         self.assertLess(recent[2].amount, 1000)
         self.assertIs(recent[-1], self.tx4)
 
+
 unittest.main(argv=[''], verbosity=2, exit=False)
 
 

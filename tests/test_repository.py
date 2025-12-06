@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from budgetbuddy.data import repository
+from budgetbuddy.data.repository import ProfileDataError
 from budgetbuddy.core.models import UserProfile, Income
 
 
@@ -39,7 +40,7 @@ class TestRepository(unittest.TestCase):
     def test_create_save_and_load_profiles(self):
         # Create two profiles
         p1 = repository.create_profile(self.profiles, "janet")
-        p2 = repository.create_profile(self.profiles, "trip")
+        repository.create_profile(self.profiles, "trip")
 
         # Add a transaction to first profile
         p1.add_transaction(Income("2025-01-01", 100.0, "Salary", "Jan pay"))
@@ -89,6 +90,17 @@ class TestRepository(unittest.TestCase):
         self.assertIn("keep", self.profiles)
         self.assertEqual(len(self.profiles), 1)
         self.assertEqual(self.profiles["keep"].name, "keep")
+
+    def test_load_profiles_corrupted_json_raises_profiledataerror(self):
+        """
+        If DATA_FILE exists but contains invalid JSON, load_profiles
+        should raise ProfileDataError.
+        """
+        # Write invalid JSON content
+        repository.DATA_FILE.write_text("{ this is not valid json", encoding="utf-8")
+
+        with self.assertRaises(ProfileDataError):
+            repository.load_profiles()
 
 
 if __name__ == "__main__":
