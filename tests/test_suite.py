@@ -9,6 +9,8 @@ from test_main import TestBudgetBuddyApp
 from test_models import TestUserProfile
 
 
+
+
 def suite():
     loader = unittest.TestLoader()
     test_suite = unittest.TestSuite()

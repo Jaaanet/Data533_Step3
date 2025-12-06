@@ -7,7 +7,7 @@ from budgetbuddy.core.models import UserProfile
 
 
 # Main data file used by the application
-DATA_FILE = Path("budgetbuddy/budgetbuddy_data.json")
+DATA_FILE = Path("budgetbuddy_data.json")
 
 
 class ProfileDataError(Exception):
@@ -24,8 +24,8 @@ def load_profiles():
     Raises:
         ProfileDataError: if the JSON file is corrupted or cannot be read.
     """
+    # If the file does not exist yet, just return an empty dict
     if not DATA_FILE.exists():
-        # No data file yet – return empty profiles dict
         return {}
 
     try:
@@ -57,7 +57,7 @@ def save_profiles(profiles):
         with DATA_FILE.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
     except OSError as e:
-        # For CLI use we just print an error message
+        # For CLI use we just print an error message instead of crashing
         print(f"Error: could not save data to {DATA_FILE}: {e}")
 
 

@@ -42,12 +42,7 @@ class Budget:
         If there are less than n transaction it returns everything.
         '''
         txs = self.month_transactions(month, year)
-        #if less than n transactions, returns everything
-        # if len(txs) <= n:
         return txs
-        # else:
-        #     #returns last n transactions if more than n total transactions
-            #return txs[-n:]
 
         
 

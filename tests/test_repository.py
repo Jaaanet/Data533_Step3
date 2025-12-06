@@ -40,7 +40,7 @@ class TestRepository(unittest.TestCase):
     def test_create_save_and_load_profiles(self):
         # Create two profiles
         p1 = repository.create_profile(self.profiles, "janet")
-        repository.create_profile(self.profiles, "trip")
+        p2 = repository.create_profile(self.profiles, "trip")
 
         # Add a transaction to first profile
         p1.add_transaction(Income("2025-01-01", 100.0, "Salary", "Jan pay"))
@@ -96,9 +96,10 @@ class TestRepository(unittest.TestCase):
         If DATA_FILE exists but contains invalid JSON, load_profiles
         should raise ProfileDataError.
         """
-        # Write invalid JSON content
+        # Write invalid JSON content to the test data file
         repository.DATA_FILE.write_text("{ this is not valid json", encoding="utf-8")
 
+        # Calling load_profiles should raise our custom exception
         with self.assertRaises(ProfileDataError):
             repository.load_profiles()
 
