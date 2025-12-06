@@ -45,4 +45,3 @@ class TestUserProfile(unittest.TestCase):
 
 unittest.main(argv=[''], verbosity=2, exit=False)
 
-
