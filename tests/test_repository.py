@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from budgetbuddy.data import repository
+from budgetbuddy.data.repository import ProfileDataError
 from budgetbuddy.core.models import UserProfile, Income
 
 
@@ -89,6 +90,18 @@ class TestRepository(unittest.TestCase):
         self.assertIn("keep", self.profiles)
         self.assertEqual(len(self.profiles), 1)
         self.assertEqual(self.profiles["keep"].name, "keep")
+
+    def test_load_profiles_corrupted_json_raises_profiledataerror(self):
+        """
+        If DATA_FILE exists but contains invalid JSON, load_profiles
+        should raise ProfileDataError.
+        """
+        # Write invalid JSON content to the test data file
+        repository.DATA_FILE.write_text("{ this is not valid json", encoding="utf-8")
+
+        # Calling load_profiles should raise our custom exception
+        with self.assertRaises(ProfileDataError):
+            repository.load_profiles()
 
 
 if __name__ == "__main__":

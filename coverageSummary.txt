@@ -1,0 +1,52 @@
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+NO TESTS RAN
+....Error: CSV file 'this_file_does_not_exist.csv' not found.
+.Warning: skipping row with invalid amount: {'date': '2025-01-01', 'amount': 'not-a-number', 'category': 'Food', 'description': 'Bad row', 'type': 'expense'}
+..Profile 'janet' created.
+..........Profile 'janet' created.
+.....Error: CSV file 'this_file_does_not_exist.csv' not found.
+.Warning: skipping row with invalid amount: {'date': '2025-01-01', 'amount': 'not-a-number', 'category': 'Food', 'description': 'Bad row', 'type': 'expense'}
+..........
+----------------------------------------------------------------------
+Ran 33 tests in 0.004s
+
+OK
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+NO TESTS RAN
+....Error: CSV file 'this_file_does_not_exist.csv' not found.
+.Warning: skipping row with invalid amount: {'date': '2025-01-01', 'amount': 'not-a-number', 'category': 'Food', 'description': 'Bad row', 'type': 'expense'}
+..Profile 'janet' created.
+..........Profile 'janet' created.
+.....Error: CSV file 'this_file_does_not_exist.csv' not found.
+.Warning: skipping row with invalid amount: {'date': '2025-01-01', 'amount': 'not-a-number', 'category': 'Food', 'description': 'Bad row', 'type': 'expense'}
+..........
+----------------------------------------------------------------------
+Ran 33 tests in 0.006s
+
+OK
+Name                             Stmts   Miss  Cover
+----------------------------------------------------
+budgetbuddy/__init__.py              2      0   100%
+budgetbuddy/core/__init__.py         3      0   100%
+budgetbuddy/core/budget.py          21      0   100%
+budgetbuddy/core/models.py          58      5    91%
+budgetbuddy/data/__init__.py         2      0   100%
+budgetbuddy/data/csvio.py           34      5    85%
+budgetbuddy/data/repository.py      41      6    85%
+budgetbuddy/ui/__init__.py           1      0   100%
+budgetbuddy/ui/main.py             233    174    25%
+budgetbuddy/ui/summary.py           21      6    71%
+tests/test_budget.py                49      0   100%
+tests/test_csvio.py                 63      5    92%
+tests/test_main.py                  72      3    96%
+tests/test_models.py                36      1    97%
+tests/test_repository.py            63      3    95%
+tests/test_suite.py                 15      7    53%
+tests/test_summary.py               48      1    98%
+----------------------------------------------------
+TOTAL                              762    216    72%

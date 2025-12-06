@@ -277,15 +277,72 @@ class BudgetBuddyApp:
 
     # === Change year (keeps month as-is) ===
 
+    # def change_year_flow(self):
+    #     """Allow the user to change the current year."""
+    #     new_year = input("Year [{}]: ".format(self.current_year)).strip()
+    #     if new_year:
+    #         try:
+    #             self.current_year = int(new_year)
+    #             print("Year changed to {}.".format(self.current_year))
+    #         except ValueError:
+    #             print("Invalid year. Please enter a number.")
+
     def change_year_flow(self):
-        """Allow the user to change the current year."""
-        new_year = input("Year [{}]: ".format(self.current_year)).strip()
-        if new_year:
-            try:
-                self.current_year = int(new_year)
-                print("Year changed to {}.".format(self.current_year))
-            except ValueError:
-                print("Invalid year. Please enter a number.")
+        """Allow the user to change the current year, with validation."""
+        print(f"Current year: {self.current_year}")
+        new_year_str = input("Enter new year (or press Enter to keep current): ").strip()
+
+        if not new_year_str:
+            # User chose to keep the current year
+            print("Year unchanged.")
+            return
+
+        try:
+            new_year = int(new_year_str)
+        except ValueError:
+            print("Invalid year. Please enter a number.")
+            return
+
+        self.current_year = new_year
+        print(f"Year changed to {self.current_year}.")
+
+    
+    def record_income_flow(self, profile):
+        """Prompt the user to enter a new income transaction."""
+        date = input("Date (YYYY-MM-DD): ").strip()
+        amount_str = input("Amount: ").strip()
+
+        try:
+            amount = float(amount_str)
+        except ValueError:
+            print(f"Error: '{amount_str}' is not a valid number.")
+            return  # Do not add a transaction
+
+        category = input("Source/category: ").strip()
+        desc = input("Description (optional): ").strip()
+
+        income = Income(date, amount, category, desc)
+        profile.add_transaction(income)
+        print("Income recorded.")
+
+    def record_expense_flow(self, profile):
+        """Prompt the user to enter a new expense transaction."""
+        date = input("Date (YYYY-MM-DD): ").strip()
+        amount_str = input("Amount: ").strip()
+
+        try:
+            amount = float(amount_str)
+        except ValueError:
+            print(f"Error: '{amount_str}' is not a valid number.")
+            return  # Do not add a transaction
+
+        category = input("Category: ").strip()
+        desc = input("Description (optional): ").strip()
+
+        expense = Expense(date, amount, category, desc)
+        profile.add_transaction(expense)
+        print("Expense recorded.")
+
 
 
 def run():

@@ -66,6 +66,57 @@ class TestBudgetBuddyApp(unittest.TestCase):
         self.assertEqual(self.app.profiles["janet"].name, "janet")
         self.assertTrue(mock_save.called)
 
+    def test_record_income_flow_valid_amount_adds_transaction(self):
+        app = BudgetBuddyApp()
+        profile = UserProfile("janet")
+
+        # Simulate user input:
+        # date, amount, category, description
+        inputs = ["2025-01-01", "100.5", "Salary", "January pay"]
+        with patch("builtins.input", side_effect=inputs), \
+             patch("sys.stdout", new_callable=io.StringIO) as fake_out:
+
+            app.record_income_flow(profile)
+
+        # Check that a transaction was added
+        self.assertEqual(len(profile.transactions), 1)
+        tx = profile.transactions[0]
+        self.assertEqual(tx.amount, 100.5)
+        self.assertEqual(tx.category, "Salary")
+        self.assertIn("Income recorded.", fake_out.getvalue())
+
+    def test_record_income_flow_invalid_amount_shows_error_and_skips(self):
+        app = BudgetBuddyApp()
+        profile = UserProfile("janet")
+
+        # Invalid amount "abc"
+        inputs = ["2025-01-01", "abc"]
+        # Note: after the invalid amount, the function returns early
+        with patch("builtins.input", side_effect=inputs), \
+             patch("sys.stdout", new_callable=io.StringIO) as fake_out:
+
+            app.record_income_flow(profile)
+
+        output = fake_out.getvalue()
+        self.assertIn("not a valid number", output)
+        self.assertEqual(len(profile.transactions), 0)
+
+    def test_change_year_flow_invalid_year_keeps_current(self):
+        app = BudgetBuddyApp()
+        original_year = app.current_year
+
+        # First input: printed current year (no input)
+        # Second input: user types "abcd" (invalid)
+        with patch("builtins.input", side_effect=["abcd"]), \
+             patch("sys.stdout", new_callable=io.StringIO) as fake_out:
+
+            app.change_year_flow()
+
+        output = fake_out.getvalue()
+        self.assertIn("Invalid year", output)
+        # Year should not have changed
+        self.assertEqual(app.current_year, original_year)
+
 
 if __name__ == "__main__":
     unittest.main()
