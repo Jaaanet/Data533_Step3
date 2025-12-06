@@ -20,7 +20,7 @@ This README documents the setup, testing process, CI workflow, and coverage resu
 BudgetBuddy Step 3/  
 |  
 |-- budgetbuddy/  
-|   | -- core/  
+|    | -- core/  
 |   | -- data/  
 |   |-- ui/  
 |  
