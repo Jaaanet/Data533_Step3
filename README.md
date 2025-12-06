@@ -17,24 +17,25 @@ This README documents the setup, testing process, CI workflow, and coverage resu
 
 
 
-BudgetBuddy Step 3/    
-│  
-├── budgetbuddy/    
-│   ├── core/    
-│   ├── data/    
-│   └── ui/  
-│    
-├── tests/    
-│   ├── test_budget.py  
-│   ├── test_csvio.py  
-│   ├── test_repository.py  
-│   ├── test_models.py  
-│   ├── test_summary.py  
-│   └── test_main.py  
-│  
-├── .github/workflows/python-tests.yml     ← GitHub Actions CI workflow  
-├── coverageSummary.txt                    ← Coverage results  
-└── README.md  
+BudgetBuddy Step 3/
+│
+├── budgetbuddy/
+│   ├── core/
+│   ├── data/
+│   └── ui/
+│
+├── tests/
+│   ├── test_budget.py
+│   ├── test_csvio.py
+│   ├── test_repository.py
+│   ├── test_models.py
+│   ├── test_summary.py
+│   └── test_main.py
+│
+├── .github/workflows/python-tests.yml     ← GitHub Actions CI workflow
+├── coverageSummary.txt                    ← Coverage results
+└── README.md
+
 
 
 
