@@ -66,6 +66,32 @@ class TestBudgetBuddyApp(unittest.TestCase):
         self.assertEqual(self.app.profiles["janet"].name, "janet")
         self.assertTrue(mock_save.called)
 
+    def test_show_guide_then_quit(self):
+        #tests option 1 then 4 (guide then quit)
+        with patch("builtins.input", side_effect=["1", "4"]), \
+            patch("builtins.print") as mock_print:
+            self.app.run()
+
+        texts_printed = [call.args[0] for call in mock_print.call_args_list]
+        self.assertTrue(any("Guide" in text for text in texts_printed))
+        self.assertTrue(any("Goodbye!" in text for text in texts_printed))
+
+    def test_quit_option(self):
+        #makes sure that choosing 4 quits the app
+        with patch("builtins.input", side_effect = ["4"]), \
+            patch("builtins.print") as mock_print:
+            self.app.run()
+        texts_printed = [call.args[0] for call in mock_print.call_args_list]
+        self.assertTrue(any("Goodbye!" in text for text in texts_printed))
+
+    def test_invalid_then_quit_option(self):
+        #tests invalid menu choice then quits the app
+        with patch("builtins.input", side_effect = ["6", "4"]), \
+            patch("builtins.print") as mock_print:
+            self.app.run()
+        texts_printed = [call.args[0] for call in mock_print.call_args_list]
+        self.assertTrue(any("Goodbye!" in text for text in texts_printed))
+
     def test_record_income_flow_valid_amount_adds_transaction(self):
         app = BudgetBuddyApp()
         profile = UserProfile("janet")
@@ -116,6 +142,26 @@ class TestBudgetBuddyApp(unittest.TestCase):
         self.assertIn("Invalid year", output)
         # Year should not have changed
         self.assertEqual(app.current_year, original_year)
+
+    def test_show_guide_then_quit(self):
+        #tests all branches of the saved profiles menu
+        self.app.profiles["janet"] = UserProfile("Janet")
+
+        inputs = [
+            "o", "janet", "6",
+            "r", "janet", "janet2",
+            "d", "janet2", "y",
+            "x",
+            "b"
+        ]
+
+        with patch("builtins.input", side_effect=inputs), \
+            patch("builtins.print") as mock_print:
+            self.app.saved_profiles_menu()
+
+        texts_printed = [call.args[0] for call in mock_print.call_args_list]
+        self.assertTrue(any("Options" in text for text in texts_printed))
+        self.assertTrue(any("Invalid choice" in text for text in texts_printed))
 
 
 if __name__ == "__main__":
