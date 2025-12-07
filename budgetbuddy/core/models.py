@@ -24,14 +24,19 @@ class Transaction:
         '''
         uses the transaction dictionary, determines if it is income or an expense and returns the correct object
         '''
-        #pick correct class based on transaction type
-        tx_type = data.get("type", "transaction")
-        if tx_type == "income":
-            tx_cls = Income
-        elif tx_type == "expense":
-            tx_cls = Expense
-        #create object of correct class
-        return tx_cls(date=data["date"], amount=data["amount"], category=data["category"], description=data.get("description", ""))
+        try:
+            #pick correct class based on transaction type
+            tx_type = data.get("type", "transaction")
+            if tx_type == "income":
+                tx_cls = Income
+            elif tx_type == "expense":
+                tx_cls = Expense
+            #create object of correct class
+            return tx_cls(date=data["date"], amount=data["amount"], category=data["category"], description=data.get("description", ""))
+        except KeyError as key:
+            #skips the transaction if a required field is missing
+            print(f"Missing required field '{key.args[0]}'. Skipping this transaction.")
+            return None
 
     def get_type(self):
         '''
