@@ -7,10 +7,15 @@ class Transaction:
         #empty string as the description if nothing inputted (makes it optional)
         #date format must be YYYY-MM-DD
         #category is the type of income or expense (ex: job for income or car payment for expense)
-        self.date = date
-        self.amount = float(amount)
-        self.category = category
-        self.description = description
+        try:
+            self.date = date
+            self.amount = float(amount)
+            self.category = category
+            self.description = description
+        except ValueError:
+            #Happens if input is invalid and cannot be converted to a string
+            self.amount = 0.0
+            print(f"Invalid amount '{amount}'. Defaulting to 0.0.")
 
     def to_dict(self):
         '''
@@ -24,14 +29,19 @@ class Transaction:
         '''
         uses the transaction dictionary, determines if it is income or an expense and returns the correct object
         '''
-        #pick correct class based on transaction type
-        tx_type = data.get("type", "transaction")
-        if tx_type == "income":
-            tx_cls = Income
-        elif tx_type == "expense":
-            tx_cls = Expense
-        #create object of correct class
-        return tx_cls(date=data["date"], amount=data["amount"], category=data["category"], description=data.get("description", ""))
+        try:
+            #pick correct class based on transaction type
+            tx_type = data.get("type", "transaction")
+            if tx_type == "income":
+                tx_cls = Income
+            elif tx_type == "expense":
+                tx_cls = Expense
+            #create object of correct class
+            return tx_cls(date=data["date"], amount=data["amount"], category=data["category"], description=data.get("description", ""))
+        except KeyError as key:
+            #skips the transaction if a required field is missing
+            print(f"Missing required field '{key.args[0]}'. Skipping this transaction.")
+            return None
 
     def get_type(self):
         '''
@@ -99,8 +109,11 @@ class UserProfile:
         We want users to be able to delete transactions. 
         This searches for the transaction they want to delete and if found, it deletes the transaction.
         '''
-        if tx in self.transactions:
+        #ValueError if the transaction to delete was never added in the first place 
+        try:
             self.transactions.remove(tx)
+        except ValueError:
+            print("Error: transaction not found. Cannot delete.")
 
     def to_dict(self):
         '''
