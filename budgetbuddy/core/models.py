@@ -7,10 +7,15 @@ class Transaction:
         #empty string as the description if nothing inputted (makes it optional)
         #date format must be YYYY-MM-DD
         #category is the type of income or expense (ex: job for income or car payment for expense)
-        self.date = date
-        self.amount = float(amount)
-        self.category = category
-        self.description = description
+        try:
+            self.date = date
+            self.amount = float(amount)
+            self.category = category
+            self.description = description
+        except ValueError:
+            #Happens if input is invalid and cannot be converted to a string
+            self.amount = 0.0
+            print(f"Invalid amount '{amount}'. Defaulting to 0.0.")
 
     def to_dict(self):
         '''
