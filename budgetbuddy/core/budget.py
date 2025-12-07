@@ -2,6 +2,10 @@
 from typing import Dict, List
 from budgetbuddy.core.models import UserProfile, Transaction
 
+class InvalidTransactionError(Exception):
+    #user defined exception: for when a transaction has invalid data
+    pass
+
 class Budget:
     '''
     This class calculates income, expenses, and recent n (for user-chosen value of n) 
@@ -50,7 +54,15 @@ class Budget:
         txs = self.month_transactions(month, year)
         return txs
 
-        
+    def valid_transaction(self, tx):
+        #user-defined exception: used to make sure the transaction's data is valid
+        try:
+            if tx.amount < 0:
+                raise InvalidTransactionError("Transaction amount can't be negative")
+                return True
+            
+        except InvalidTransactionError:
+            return False  
 
 # %%
 
