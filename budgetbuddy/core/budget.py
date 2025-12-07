@@ -14,21 +14,27 @@ class Budget:
         '''
         Returns dictionary for the month that includes overall income, overall expenses, and net amount.
         '''
-        #all transactions for the month and year
-        txs = self.profile.list_transactions(month, year)
-        income = 0.0
-        expense = 0.0
-        #go through transactions one by one
-        for t in txs:
-            #checks if transaction is income
-            if t.get_type() == "income":
-                income += t.amount
-            #if not income, checks if transaction is an expense
-            elif t.get_type() == "expense":
-                expense += t.amount
-        net = income - expense
-        #results are returned as a dictionary
-        return {"income": income, "expense": expense, "net": net}
+        try: 
+            #all transactions for the month and year
+            txs = self.profile.list_transactions(month, year)
+            income = 0.0
+            expense = 0.0
+            #go through transactions one by one
+            for t in txs:
+                #checks if transaction is income
+                if t.get_type() == "income":
+                    income += t.amount
+                #if not income, checks if transaction is an expense
+                elif t.get_type() == "expense":
+                    expense += t.amount
+                else:
+                    #if user tries to access a dictionary key that isn't real (misspelling, etc.)
+                    raise KeyError("Unknown transaction type")
+            net = income - expense
+            #results are returned as a dictionary
+            return {"income": income, "expense": expense, "net": net}
+        except KeyError:
+            return{"income": 0, "expense": 0, "net": 0}
 
     def month_transactions(self, month: int, year: int):
         '''
