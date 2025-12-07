@@ -46,7 +46,7 @@ BudgetBuddy Step 3/
 
 For Step 3, multiple functions across the project were extended with **robust exception handling**.
 
-### Six methods with exception handling
+### Eleven methods with exception handling
 
 | Module | Method | Exception Type | Purpose |
 |--------|--------|----------------|---------|
@@ -56,12 +56,23 @@ For Step 3, multiple functions across the project were extended with **robust ex
 | `repository.py` | `save_profiles()` | `IOError` | Handles file write issues |
 | `ui/main.py` | `_open_profile_flow()` | `KeyError` | Invalid profile selection |
 | `ui/main.py` | `_input_amount()` | `ValueError` | Non-numeric input |
+| `models.py` | `__init__()` | `ValueError` | Invalid amount input |
+| `models.py` | `from_dict()` | `KeyError` | Handles missing required field |
+| `models.py` | `delete_transaction()` | `ValueError` | Handles trying to delete non-existent transaction |
+| `budget.py` | `month_totals()` | `KeyError` | Invalid transaction type |
+| `budget.py` | `valid_transaction()` | **`InvalidTransactionError` (user-defined)** | Handles negative transaction input |
 
-### User-defined exception
+
+### User-defined exceptions
 
 ```python
 class ProfileDataError(Exception):
     """Raised when profile JSON data is corrupted or unreadable."""
+```
+
+```python
+class InvalidTransactionError(Exception):
+    """Raised when profile a transaction has invalid data, such as a negative input."""
 ```
 
 ## 2 Unit Testing & Test Suite
