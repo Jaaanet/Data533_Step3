@@ -99,8 +99,11 @@ class UserProfile:
         We want users to be able to delete transactions. 
         This searches for the transaction they want to delete and if found, it deletes the transaction.
         '''
-        if tx in self.transactions:
+        #ValueError if the transaction to delete was never added in the first place 
+        try:
             self.transactions.remove(tx)
+        except ValueError:
+            print("Error: transaction not found. Cannot delete.")
 
     def to_dict(self):
         '''
