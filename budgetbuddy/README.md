@@ -59,9 +59,9 @@ The main data file (`budgetbuddy_data.json`) is created in the **same directory 
 
 ---
 
-## Running the Program
+## Running the Program  
 
-**Command-Line**
+**Command-Line**  
 Create a runner python file (eg. test.py) that contains:
 
 ```
