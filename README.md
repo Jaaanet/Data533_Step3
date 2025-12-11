@@ -93,7 +93,7 @@ coverage report
 
 A full report is in the `coverageSummary.txt` file.
 
-## PyPi Link
+## 4 PyPi Link
 The link to our published package can be found [here](https://pypi.org/project/budgetbuddy/0.0.4/)
 
 This repository contains the **Step 3 deliverables** for the BudgetBuddy project.  
